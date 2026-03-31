@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — The Maturity Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F8F6F1;
+    --sage: #A8B5A0;
+    --sage-light: #C8D4C2;
+    --sage-pale: #E8EDE5;
+    --blue-muted: #8FA3B0;
+    --blue-light: #B8C8D2;
+    --blue-pale: #E0E8ED;
+    --gold-soft: #C4A96A;
+    --text-primary: #2C3E2D;
+    --text-secondary: #5A6B5C;
+    --text-light: #8A9A8C;
+    --white: #FFFFFF;
+    --divider: rgba(168, 181, 160, 0.3);
+    --danger: #C0616B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 300;
+    color: var(--text-primary);
+    background: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Login overlay ─── */
+  .login-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--cream);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-overlay.hidden { display: none; }
+  .login-box {
+    text-align: center;
+    max-width: 360px;
+    width: 100%;
+    padding: 2rem;
+  }
+  .login-box h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .login-box p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+  .login-box input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: var(--white);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .login-box input:focus { border-color: var(--sage); }
+  .login-error {
+    color: var(--danger);
+    font-size: 0.82rem;
+    margin-bottom: 1rem;
+    display: none;
+  }
+  .login-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--text-primary);
+    color: var(--cream);
+    border: none;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .login-btn:hover { background: var(--sage); }
+
+  /* ─── Admin header ─── */
+  .admin-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(248, 246, 241, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--divider);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .admin-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+  }
+  .admin-header-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .btn {
+    padding: 0.55rem 1.2rem;
+    border: none;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .btn-primary {
+    background: var(--text-primary);
+    color: var(--cream);
+  }
+  .btn-primary:hover { background: var(--sage); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--divider);
+  }
+  .btn-outline:hover { border-color: var(--sage); color: var(--text-primary); }
+  .btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid rgba(192, 97, 107, 0.3);
+  }
+  .btn-danger:hover { background: var(--danger); color: var(--white); }
+  .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.68rem; }
+
+  /* ─── Main content ─── */
+  .admin-main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* ─── Section panels ─── */
+  .panel {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid rgba(168, 181, 160, 0.15);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .panel-header:hover { background: var(--sage-pale); }
+  .panel-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+  }
+  .panel-toggle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    transition: transform 0.3s;
+  }
+  .panel.open .panel-toggle { transform: rotate(180deg); }
+  .panel-body {
+    padding: 0 1.5rem 1.5rem;
+    display: none;
+  }
+  .panel.open .panel-body { display: block; }
+
+  /* ─── Form fields ─── */
+  .field {
+    margin-bottom: 1.25rem;
+  }
+  .field label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.4rem;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: var(--cream);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.3s;
+    resize: vertical;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--sage);
+  }
+  .field textarea { min-height: 80px; }
+  .field .hint {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    margin-top: 0.3rem;
+  }
+
+  /* ─── Repeater items ─── */
+  .repeater-item {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    position: relative;
+    border: 1px solid rgba(168, 181, 160, 0.1);
+  }
+  .repeater-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  .repeater-item-header span {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .field-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+  .add-btn {
+    width: 100%;
+    padding: 0.7rem;
+    border: 2px dashed var(--divider);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .add-btn:hover {
+    border-color: var(--sage);
+    color: var(--sage);
+    background: var(--sage-pale);
+  }
+
+  /* ─── Members compact grid ─── */
+  .members-admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .member-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .member-row input {
+    flex: 1;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--divider);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    background: var(--cream);
+    color: var(--text-primary);
+    outline: none;
+  }
+  .member-row input:focus { border-color: var(--sage); }
+  .member-row select {
+    width: 110px;
+    padding: 0.5rem;
+    border: 1px solid var(--divider);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    background: var(--cream);
+    color: var(--text-primary);
+    outline: none;
+  }
+  .member-row .btn-remove {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--text-light);
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .member-row .btn-remove:hover { background: rgba(192, 97, 107, 0.1); color: var(--danger); }
+
+  /* ─── Toast ─── */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    z-index: 2000;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--text-primary); color: var(--cream); }
+  .toast.error { background: var(--danger); color: var(--white); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 600px) {
+    .admin-main { padding: 1rem; }
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .members-admin-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Login overlay -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h1>The Maturity Project</h1>
+    <p>Admin Dashboard</p>
+    <p class="login-error" id="loginError">Invalid username or password</p>
+    <input type="text" id="loginUser" placeholder="Username" autocomplete="username">
+    <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password">
+    <button class="login-btn" id="loginBtn">Sign In</button>
+  </div>
+</div>
+
+<!-- Admin header -->
+<div class="admin-header" id="adminHeader" style="display: none;">
+  <h1>&#x271D; Content Manager</h1>
+  <div class="admin-header-actions">
+    <a href="/" target="_blank" class="btn btn-outline">Preview Site</a>
+    <button class="btn btn-primary" id="saveAllBtn">Save All Changes</button>
+    <button class="btn btn-danger btn-sm" id="logoutBtn">Logout</button>
+  </div>
+</div>
+
+<!-- Admin main -->
+<div class="admin-main" id="adminMain" style="display: none;">
+
+  <!-- Hero -->
+  <div class="panel open" data-panel="hero">
+    <div class="panel-header"><h2>Hero Section</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field">
+        <label>Eyebrow Text</label>
+        <input type="text" data-bind="hero.eyebrow">
+      </div>
+      <div class="field">
+        <label>Headline</label>
+        <textarea data-bind="hero.headline" rows="2"></textarea>
+        <p class="hint">Supports &lt;br&gt; and &lt;em&gt; for line breaks and emphasis</p>
+      </div>
+      <div class="field">
+        <label>Scripture Quote</label>
+        <textarea data-bind="hero.scripture" rows="3"></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Scripture Reference</label>
+          <input type="text" data-bind="hero.scriptureRef">
+        </div>
+        <div class="field">
+          <label>CTA Button Text</label>
+          <input type="text" data-bind="hero.ctaText">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="panel" data-panel="about">
+    <div class="panel-header"><h2>About / Vision</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Section Label</label>
+          <input type="text" data-bind="about.label">
+        </div>
+        <div class="field">
+          <label>Visual Placeholder Text</label>
+          <input type="text" data-bind="about.visualText">
+        </div>
+      </div>
+      <div class="field">
+        <label>Title</label>
+        <textarea data-bind="about.title" rows="2"></textarea>
+        <p class="hint">Supports &lt;br&gt; for line breaks</p>
+      </div>
+      <div class="field">
+        <label>Paragraph 1</label>
+        <textarea data-bind="about.body[0]" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label>Paragraph 2</label>
+        <textarea data-bind="about.body[1]" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journey -->
+  <div class="panel" data-panel="journey">
+    <div class="panel-header"><h2>Journey / Stages</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Section Label</label>
+          <input type="text" data-bind="journey.label">
+        </div>
+        <div class="field">
+          <label>Section Title</label>
+          <input type="text" data-bind="journey.title">
+        </div>
+      </div>
+      <div id="journeyRepeater"></div>
+      <button class="add-btn" onclick="addStage()">+ Add Stage</button>
+    </div>
+  </div>
+
+  <!-- Commissions -->
+  <div class="panel" data-panel="commissions">
+    <div class="panel-header"><h2>Commissions</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Section Label</label>
+          <input type="text" data-bind="commissions.label">
+        </div>
+        <div class="field">
+          <label>Section Title</label>
+          <input type="text" data-bind="commissions.title">
+        </div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea data-bind="commissions.body" rows="2"></textarea>
+      </div>
+      <div id="commissionsRepeater"></div>
+      <button class="add-btn" onclick="addCommission()">+ Add Commission</button>
+    </div>
+  </div>
+
+  <!-- Members -->
+  <div class="panel" data-panel="members">
+    <div class="panel-header"><h2>Members</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Section Label</label>
+          <input type="text" data-bind="members.label">
+        </div>
+        <div class="field">
+          <label>Section Title</label>
+          <input type="text" data-bind="members.title">
+        </div>
+      </div>
+      <label style="display:block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.6rem;">Member List</label>
+      <div class="members-admin-grid" id="membersRepeater"></div>
+      <button class="add-btn" style="margin-top: 1rem;" onclick="addMember()">+ Add Member</button>
+    </div>
+  </div>
+
+  <!-- Schedule -->
+  <div class="panel" data-panel="schedule">
+    <div class="panel-header"><h2>Schedule</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Section Label</label>
+          <input type="text" data-bind="schedule.label">
+        </div>
+        <div class="field">
+          <label>Section Title</label>
+          <input type="text" data-bind="schedule.title">
+        </div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea data-bind="schedule.body" rows="2"></textarea>
+      </div>
+      <div id="scheduleRepeater"></div>
+      <button class="add-btn" onclick="addEvent()">+ Add Event</button>
+    </div>
+  </div>
+
+  <!-- Leadership -->
+  <div class="panel" data-panel="leadership">
+    <div class="panel-header"><h2>Leadership</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Section Label</label>
+          <input type="text" data-bind="leadership.label">
+        </div>
+        <div class="field">
+          <label>Section Title</label>
+          <input type="text" data-bind="leadership.title">
+        </div>
+      </div>
+      <div id="leadershipRepeater"></div>
+      <button class="add-btn" onclick="addLeader()">+ Add Leader</button>
+    </div>
+  </div>
+
+  <!-- Connect -->
+  <div class="panel" data-panel="connect">
+    <div class="panel-header"><h2>Connect / CTA</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Section Label</label>
+          <input type="text" data-bind="connect.label">
+        </div>
+        <div class="field">
+          <label>Button Text</label>
+          <input type="text" data-bind="connect.buttonText">
+        </div>
+      </div>
+      <div class="field">
+        <label>Title</label>
+        <textarea data-bind="connect.title" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label>Body</label>
+        <textarea data-bind="connect.body" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label>Contact Email</label>
+        <input type="email" data-bind="connect.email">
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="panel" data-panel="footer">
+    <div class="panel-header"><h2>Footer</h2><span class="panel-toggle">&#x25BC;</span></div>
+    <div class="panel-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Scripture Quote</label>
+          <textarea data-bind="footer.scripture" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>Scripture Reference</label>
+          <input type="text" data-bind="footer.scriptureRef">
+        </div>
+      </div>
+      <div class="field">
+        <label>Copyright Text</label>
+        <input type="text" data-bind="footer.copyright">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  let contentData = null;
+
+  const COLOR_OPTIONS = [
+    { value: 'sage', label: 'Sage' },
+    { value: 'sage-light', label: 'Sage Light' },
+    { value: 'blue-muted', label: 'Blue' },
+    { value: 'blue-light', label: 'Blue Light' },
+    { value: 'gold-soft', label: 'Gold' }
+  ];
+
+  const GRADIENT_OPTIONS = [
+    { value: 'sage-to-sage-light', label: 'Sage' },
+    { value: 'blue-muted-to-blue-light', label: 'Blue' },
+    { value: 'sage-to-blue-muted', label: 'Sage to Blue' },
+    { value: 'sage-to-gold-soft', label: 'Sage to Gold' },
+    { value: 'blue-muted-to-gold-soft', label: 'Blue to Gold' }
+  ];
+
+  function colorSelect(value) {
+    return COLOR_OPTIONS.map(c =>
+      `<option value="${c.value}" ${c.value === value ? 'selected' : ''}>${c.label}</option>`
+    ).join('');
+  }
+
+  function gradientSelect(value) {
+    return GRADIENT_OPTIONS.map(g =>
+      `<option value="${g.value}" ${g.value === value ? 'selected' : ''}>${g.label}</option>`
+    ).join('');
+  }
+
+  // ─── Toast ───
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ─── Auth ───
+  async function checkAuth() {
+    const res = await fetch('/api/auth-check');
+    const data = await res.json();
+    if (data.authenticated) {
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('adminHeader').style.display = 'flex';
+      document.getElementById('adminMain').style.display = 'block';
+      await loadContent();
+    }
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', async () => {
+    const username = document.getElementById('loginUser').value;
+    const password = document.getElementById('loginPass').value;
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    if (res.ok) {
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('adminHeader').style.display = 'flex';
+      document.getElementById('adminMain').style.display = 'block';
+      await loadContent();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  });
+
+  document.getElementById('loginPass').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('loginBtn').click();
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await fetch('/api/logout', { method: 'POST' });
+    location.reload();
+  });
+
+  // ─── Panel toggle ───
+  document.querySelectorAll('.panel-header').forEach(h => {
+    h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
+  });
+
+  // ─── Load content ───
+  async function loadContent() {
+    const res = await fetch('/api/content');
+    contentData = await res.json();
+    populateFields();
+    renderRepeaters();
+  }
+
+  // ─── Populate simple fields ───
+  function populateFields() {
+    document.querySelectorAll('[data-bind]').forEach(el => {
+      const path = el.getAttribute('data-bind');
+      const val = getNestedValue(contentData, path);
+      if (val !== undefined) {
+        el.value = val;
+      }
+    });
+  }
+
+  function getNestedValue(obj, path) {
+    const match = path.match(/^(.+)\[(\d+)\]$/);
+    if (match) {
+      const arr = path.split('.').slice(0, -1).reduce((o, k) => o && o[k], obj);
+      const lastKey = match[1].split('.').pop();
+      const parent = path.split('.').slice(0, -1).reduce((o, k) => o && o[k], obj);
+      // Handle array access like about.body[0]
+      const parts = match[1].split('.');
+      let current = obj;
+      for (const p of parts) current = current && current[p];
+      if (Array.isArray(current)) return current[parseInt(match[2])];
+      return undefined;
+    }
+    return path.split('.').reduce((o, k) => o && o[k], obj);
+  }
+
+  function setNestedValue(obj, path, value) {
+    const match = path.match(/^(.+)\[(\d+)\]$/);
+    if (match) {
+      const parts = match[1].split('.');
+      let current = obj;
+      for (const p of parts) current = current[p];
+      if (Array.isArray(current)) current[parseInt(match[2])] = value;
+      return;
+    }
+    const keys = path.split('.');
+    let current = obj;
+    for (let i = 0; i < keys.length - 1; i++) current = current[keys[i]];
+    current[keys[keys.length - 1]] = value;
+  }
+
+  // ─── Render repeaters ───
+  function renderRepeaters() {
+    renderStages();
+    renderCommissions();
+    renderMembers();
+    renderEvents();
+    renderLeaders();
+  }
+
+  function renderStages() {
+    const container = document.getElementById('journeyRepeater');
+    container.innerHTML = contentData.journey.stages.map((s, i) => `
+      <div class="repeater-item">
+        <div class="repeater-item-header">
+          <span>Stage ${i + 1}</span>
+          <button class="btn btn-danger btn-sm" onclick="removeStage(${i})">Remove</button>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Number</label>
+            <input type="text" value="${s.number}" onchange="contentData.journey.stages[${i}].number=this.value">
+          </div>
+          <div class="field">
+            <label>Title</label>
+            <input type="text" value="${s.title}" onchange="contentData.journey.stages[${i}].title=this.value">
+          </div>
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea rows="2" onchange="contentData.journey.stages[${i}].description=this.value">${s.description}</textarea>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderCommissions() {
+    const container = document.getElementById('commissionsRepeater');
+    container.innerHTML = contentData.commissions.cards.map((c, i) => `
+      <div class="repeater-item">
+        <div class="repeater-item-header">
+          <span>${c.icon} ${c.title}</span>
+          <button class="btn btn-danger btn-sm" onclick="removeCommission(${i})">Remove</button>
+        </div>
+        <div class="field-row-3">
+          <div class="field">
+            <label>Icon (emoji)</label>
+            <input type="text" value="${c.icon}" onchange="contentData.commissions.cards[${i}].icon=this.value">
+          </div>
+          <div class="field">
+            <label>Color</label>
+            <select onchange="contentData.commissions.cards[${i}].iconColor=this.value">
+              ${colorSelect(c.iconColor)}
+            </select>
+          </div>
+          <div class="field">
+            <label>Title</label>
+            <input type="text" value="${c.title}" onchange="contentData.commissions.cards[${i}].title=this.value">
+          </div>
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea rows="2" onchange="contentData.commissions.cards[${i}].description=this.value">${c.description}</textarea>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderMembers() {
+    const container = document.getElementById('membersRepeater');
+    container.innerHTML = contentData.members.list.map((m, i) => `
+      <div class="member-row">
+        <input type="text" value="${m.name}" placeholder="Name" onchange="contentData.members.list[${i}].name=this.value">
+        <select onchange="contentData.members.list[${i}].color=this.value">
+          ${colorSelect(m.color)}
+        </select>
+        <button class="btn-remove" onclick="removeMember(${i})" title="Remove">&times;</button>
+      </div>
+    `).join('');
+  }
+
+  function renderEvents() {
+    const container = document.getElementById('scheduleRepeater');
+    container.innerHTML = contentData.schedule.events.map((ev, i) => `
+      <div class="repeater-item">
+        <div class="repeater-item-header">
+          <span>${ev.day} ${ev.month} — ${ev.title}</span>
+          <button class="btn btn-danger btn-sm" onclick="removeEvent(${i})">Remove</button>
+        </div>
+        <div class="field-row-3">
+          <div class="field">
+            <label>Day</label>
+            <input type="text" value="${ev.day}" onchange="contentData.schedule.events[${i}].day=this.value">
+          </div>
+          <div class="field">
+            <label>Month</label>
+            <input type="text" value="${ev.month}" onchange="contentData.schedule.events[${i}].month=this.value">
+          </div>
+          <div class="field">
+            <label>Title</label>
+            <input type="text" value="${ev.title}" onchange="contentData.schedule.events[${i}].title=this.value">
+          </div>
+        </div>
+        <div class="field">
+          <label>Details</label>
+          <input type="text" value="${ev.details}" onchange="contentData.schedule.events[${i}].details=this.value">
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderLeaders() {
+    const container = document.getElementById('leadershipRepeater');
+    container.innerHTML = contentData.leadership.leaders.map((l, i) => `
+      <div class="repeater-item">
+        <div class="repeater-item-header">
+          <span>${l.name}</span>
+          <button class="btn btn-danger btn-sm" onclick="removeLeader(${i})">Remove</button>
+        </div>
+        <div class="field-row-3">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" value="${l.name}" onchange="contentData.leadership.leaders[${i}].name=this.value">
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <input type="text" value="${l.role}" onchange="contentData.leadership.leaders[${i}].role=this.value">
+          </div>
+          <div class="field">
+            <label>Gradient</label>
+            <select onchange="contentData.leadership.leaders[${i}].gradient=this.value">
+              ${gradientSelect(l.gradient)}
+            </select>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ─── Add / Remove helpers ───
+  function addStage() {
+    const n = contentData.journey.stages.length + 1;
+    contentData.journey.stages.push({ number: String(n).padStart(2, '0'), title: 'New Stage', description: '' });
+    renderStages();
+  }
+  function removeStage(i) { contentData.journey.stages.splice(i, 1); renderStages(); }
+
+  function addCommission() {
+    contentData.commissions.cards.push({ icon: '✨', iconColor: 'sage', title: 'New Commission', description: '' });
+    renderCommissions();
+  }
+  function removeCommission(i) { contentData.commissions.cards.splice(i, 1); renderCommissions(); }
+
+  function addMember() {
+    contentData.members.list.push({ name: '', color: 'sage' });
+    renderMembers();
+  }
+  function removeMember(i) { contentData.members.list.splice(i, 1); renderMembers(); }
+
+  function addEvent() {
+    contentData.schedule.events.push({ day: '01', month: 'Jan', title: 'New Event', details: '' });
+    renderEvents();
+  }
+  function removeEvent(i) { contentData.schedule.events.splice(i, 1); renderEvents(); }
+
+  function addLeader() {
+    contentData.leadership.leaders.push({ name: 'New Leader', role: 'Role', gradient: 'sage-to-sage-light' });
+    renderLeaders();
+  }
+  function removeLeader(i) { contentData.leadership.leaders.splice(i, 1); renderLeaders(); }
+
+  // ─── Collect data-bind values ───
+  function collectBindValues() {
+    document.querySelectorAll('[data-bind]').forEach(el => {
+      setNestedValue(contentData, el.getAttribute('data-bind'), el.value);
+    });
+  }
+
+  // ─── Save ───
+  document.getElementById('saveAllBtn').addEventListener('click', async () => {
+    collectBindValues();
+    try {
+      const res = await fetch('/api/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contentData)
+      });
+      if (res.ok) {
+        showToast('Content saved successfully', 'success');
+      } else {
+        showToast('Failed to save content', 'error');
+      }
+    } catch (e) {
+      showToast('Network error', 'error');
+    }
+  });
+
+  // ─── Init ───
+  checkAuth();
+</script>
+
+</body>
+</html>

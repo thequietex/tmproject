@@ -38,7 +38,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ─── Noise / grain overlay ─── */
   body::before {
     content: '';
     position: fixed;
@@ -48,7 +47,6 @@
     z-index: 9999;
   }
 
-  /* ─── Scroll reveal system ─── */
   .reveal {
     opacity: 0;
     transform: translateY(32px);
@@ -64,7 +62,6 @@
   .reveal-delay-3 { transition-delay: 0.36s; }
   .reveal-delay-4 { transition-delay: 0.48s; }
 
-  /* ─── Navigation ─── */
   nav {
     position: fixed;
     top: 0;
@@ -117,7 +114,6 @@
   .nav-links a:hover { color: var(--text-primary); }
   .nav-links a:hover::after { width: 100%; }
 
-  /* ─── Hero ─── */
   .hero {
     min-height: 100vh;
     display: flex;
@@ -206,7 +202,6 @@
   }
   .hero-cta:hover svg { transform: translateY(3px); }
 
-  /* Growing line animation */
   .growth-line {
     position: absolute;
     bottom: 0;
@@ -227,7 +222,6 @@
     to { height: 80px; }
   }
 
-  /* ─── Sections ─── */
   section {
     padding: 7rem 3rem;
     max-width: 1100px;
@@ -256,7 +250,6 @@
     line-height: 1.85;
   }
 
-  /* ─── About / Vision ─── */
   .about {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -290,7 +283,6 @@
     opacity: 0.7;
   }
 
-  /* ─── Journey / Stages ─── */
   .journey-section {
     padding: 7rem 3rem;
     max-width: 1100px;
@@ -351,7 +343,6 @@
     line-height: 1.7;
   }
 
-  /* ─── Commissions ─── */
   .commissions-section {
     padding: 7rem 3rem;
     max-width: 1100px;
@@ -402,7 +393,6 @@
     line-height: 1.7;
   }
 
-  /* ─── Members ─── */
   .members-section {
     padding: 7rem 3rem;
     max-width: 1100px;
@@ -447,7 +437,6 @@
     letter-spacing: 0.02em;
   }
 
-  /* ─── Schedule ─── */
   .schedule-section {
     padding: 7rem 3rem;
     max-width: 1100px;
@@ -507,7 +496,6 @@
     color: var(--text-light);
   }
 
-  /* ─── Leadership ─── */
   .leadership-section {
     padding: 7rem 3rem;
     max-width: 1100px;
@@ -556,7 +544,6 @@
     text-transform: uppercase;
   }
 
-  /* ─── Connect / CTA ─── */
   .connect-section {
     padding: 7rem 3rem 5rem;
     max-width: 1100px;
@@ -610,7 +597,6 @@
     transform: translateY(-2px);
   }
 
-  /* ─── Footer ─── */
   footer {
     padding: 3rem;
     text-align: center;
@@ -631,7 +617,6 @@
     margin-bottom: 1rem;
   }
 
-  /* ─── Dividers ─── */
   .section-divider {
     width: 48px;
     height: 1px;
@@ -642,7 +627,6 @@
     margin: 0;
   }
 
-  /* ─── Responsive ─── */
   @media (max-width: 900px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { gap: 1.5rem; }
@@ -685,15 +669,11 @@
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">A Bible Study Fellowship</p>
-    <h1>Growing into the<br><em>fullness of Christ</em></h1>
-    <p class="hero-scripture">
-      "Until we all reach unity in the faith and in the knowledge of the Son of God
-      and become mature, attaining to the whole measure of the fullness of Christ."
-      <br>— Ephesians 4:13
-    </p>
-    <a href="#about" class="hero-cta">
-      Begin the Journey
+    <p class="hero-eyebrow" id="heroEyebrow"></p>
+    <h1 id="heroHeadline"></h1>
+    <p class="hero-scripture" id="heroScripture"></p>
+    <a href="#about" class="hero-cta" id="heroCta">
+      <span id="heroCtaText"></span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 5v14M19 12l-7 7-7-7"/>
       </svg>
@@ -706,26 +686,14 @@
 <section id="about">
   <div class="about">
     <div>
-      <p class="section-label reveal">Our Vision</p>
-      <h2 class="section-title reveal reveal-delay-1">
-        A community pursuing<br>spiritual maturity together
-      </h2>
+      <p class="section-label reveal" id="aboutLabel"></p>
+      <h2 class="section-title reveal reveal-delay-1" id="aboutTitle"></h2>
       <div class="section-divider left reveal reveal-delay-2" style="margin-bottom: 1.5rem;"></div>
-      <p class="section-body reveal reveal-delay-2">
-        The Maturity Project is a fellowship of 40 believers committed to growing deeper
-        in the Word of God. We believe that spiritual maturity isn't a destination — it's
-        a journey we walk together, season by season, study by study.
-      </p>
-      <p class="section-body reveal reveal-delay-3" style="margin-top: 1rem;">
-        Through structured Bible study, Godly commissions, and mutual accountability,
-        we're becoming who God created us to be.
-      </p>
+      <div id="aboutBody"></div>
     </div>
     <div class="about-visual reveal reveal-delay-2">
       <div class="about-visual-inner">
-        <p class="about-visual-text">
-          Your logo &<br>group photo here
-        </p>
+        <p class="about-visual-text" id="aboutVisualText"></p>
       </div>
     </div>
   </div>
@@ -734,190 +702,64 @@
 <!-- Journey -->
 <section class="journey-section" id="journey">
   <div class="journey-header">
-    <p class="section-label reveal">The Path</p>
-    <h2 class="section-title reveal reveal-delay-1">Stages of Growth</h2>
+    <p class="section-label reveal" id="journeyLabel"></p>
+    <h2 class="section-title reveal reveal-delay-1" id="journeyTitle"></h2>
     <div class="section-divider reveal reveal-delay-2"></div>
   </div>
-  <div class="journey-stages">
-    <div class="stage-card stage-1 reveal">
-      <div class="stage-number">01</div>
-      <h3 class="stage-title">Foundation</h3>
-      <p class="stage-desc">Rooted in the Word. Building the habits of daily study, prayer, and fellowship.</p>
-    </div>
-    <div class="stage-card stage-2 reveal reveal-delay-1">
-      <div class="stage-number">02</div>
-      <h3 class="stage-title">Formation</h3>
-      <p class="stage-desc">Shaped by truth. Developing understanding and letting Scripture transform the mind.</p>
-    </div>
-    <div class="stage-card stage-3 reveal reveal-delay-2">
-      <div class="stage-number">03</div>
-      <h3 class="stage-title">Commission</h3>
-      <p class="stage-desc">Sent with purpose. Discovering and walking in your God-given assignment.</p>
-    </div>
-    <div class="stage-card stage-4 reveal reveal-delay-3">
-      <div class="stage-number">04</div>
-      <h3 class="stage-title">Multiplication</h3>
-      <p class="stage-desc">Bearing fruit. Pouring into others and extending the Kingdom through service.</p>
-    </div>
-  </div>
+  <div class="journey-stages" id="journeyStages"></div>
 </section>
 
 <!-- Commissions -->
 <section class="commissions-section" id="commissions">
   <div class="commissions-header">
-    <p class="section-label reveal">Godly Commissions</p>
-    <h2 class="section-title reveal reveal-delay-1">Called to Serve</h2>
-    <p class="section-body reveal reveal-delay-2">
-      Each commission is an extension of our purpose — equipping members
-      to serve the body and the world with their unique gifts.
-    </p>
+    <p class="section-label reveal" id="commissionsLabel"></p>
+    <h2 class="section-title reveal reveal-delay-1" id="commissionsTitle"></h2>
+    <p class="section-body reveal reveal-delay-2" id="commissionsBody"></p>
   </div>
-  <div class="commissions-grid">
-    <div class="commission-card reveal">
-      <div class="commission-icon sage">&#x1F54A;&#xFE0F;</div>
-      <h3>Prayer & Intercession</h3>
-      <p>Standing in the gap for the fellowship, our families, and our communities through consistent, fervent prayer.</p>
-    </div>
-    <div class="commission-card reveal reveal-delay-1">
-      <div class="commission-icon blue">&#x1F4D6;</div>
-      <h3>Teaching & Discipleship</h3>
-      <p>Facilitating Bible studies, mentoring new believers, and ensuring sound doctrine flows through the fellowship.</p>
-    </div>
-    <div class="commission-card reveal reveal-delay-2">
-      <div class="commission-icon sage">&#x1F91D;</div>
-      <h3>Outreach & Evangelism</h3>
-      <p>Extending the love of Christ beyond our walls — community service, campus ministry, and missions.</p>
-    </div>
-    <div class="commission-card reveal reveal-delay-3">
-      <div class="commission-icon blue">&#x1F3B5;</div>
-      <h3>Worship & Creative Arts</h3>
-      <p>Leading the fellowship into God's presence through music, spoken word, and creative expression.</p>
-    </div>
-    <div class="commission-card reveal reveal-delay-4">
-      <div class="commission-icon sage">&#x1F49B;</div>
-      <h3>Welfare & Care</h3>
-      <p>Meeting practical needs, checking on members, and creating a culture of genuine love and support.</p>
-    </div>
-    <div class="commission-card reveal reveal-delay-4">
-      <div class="commission-icon blue">&#x1F4CB;</div>
-      <h3>Administration & Media</h3>
-      <p>Keeping the fellowship organized, managing communications, and documenting our journey.</p>
-    </div>
-  </div>
+  <div class="commissions-grid" id="commissionsGrid"></div>
 </section>
 
 <!-- Members -->
 <section class="members-section" id="members">
   <div class="members-header">
-    <p class="section-label reveal">Our People</p>
-    <h2 class="section-title reveal reveal-delay-1">40 Members, One Purpose</h2>
+    <p class="section-label reveal" id="membersLabel"></p>
+    <h2 class="section-title reveal reveal-delay-1" id="membersTitle"></h2>
     <div class="section-divider reveal reveal-delay-2"></div>
   </div>
-  <div class="members-grid reveal reveal-delay-2" id="membersGrid">
-    <!-- Generated by JS -->
-  </div>
+  <div class="members-grid reveal reveal-delay-2" id="membersGrid"></div>
 </section>
 
 <!-- Schedule -->
 <section class="schedule-section" id="schedule">
   <div class="schedule-layout">
     <div>
-      <p class="section-label reveal">Study Calendar</p>
-      <h2 class="section-title reveal reveal-delay-1">Upcoming<br>Sessions</h2>
+      <p class="section-label reveal" id="scheduleLabel"></p>
+      <h2 class="section-title reveal reveal-delay-1" id="scheduleTitle"></h2>
       <div class="section-divider left reveal reveal-delay-2" style="margin-bottom: 1.5rem;"></div>
-      <p class="section-body reveal reveal-delay-2">
-        We gather weekly for Bible study and monthly for fellowship. All sessions
-        are open to committed members.
-      </p>
+      <p class="section-body reveal reveal-delay-2" id="scheduleBody"></p>
     </div>
-    <div class="schedule-list">
-      <div class="schedule-item reveal">
-        <div class="schedule-date">
-          <div class="day">05</div>
-          <div class="month">Apr</div>
-        </div>
-        <div class="schedule-info">
-          <h4>Book of James — Chapter 3</h4>
-          <p>Saturday · 10:00 AM · Main Hall</p>
-        </div>
-      </div>
-      <div class="schedule-item reveal reveal-delay-1">
-        <div class="schedule-date">
-          <div class="day">12</div>
-          <div class="month">Apr</div>
-        </div>
-        <div class="schedule-info">
-          <h4>Book of James — Chapter 4</h4>
-          <p>Saturday · 10:00 AM · Main Hall</p>
-        </div>
-      </div>
-      <div class="schedule-item reveal reveal-delay-2">
-        <div class="schedule-date">
-          <div class="day">19</div>
-          <div class="month">Apr</div>
-        </div>
-        <div class="schedule-info">
-          <h4>Monthly Fellowship & Worship</h4>
-          <p>Saturday · 4:00 PM · Fellowship Center</p>
-        </div>
-      </div>
-      <div class="schedule-item reveal reveal-delay-3">
-        <div class="schedule-date">
-          <div class="day">26</div>
-          <div class="month">Apr</div>
-        </div>
-        <div class="schedule-info">
-          <h4>Book of James — Chapter 5</h4>
-          <p>Saturday · 10:00 AM · Main Hall</p>
-        </div>
-      </div>
-    </div>
+    <div class="schedule-list" id="scheduleList"></div>
   </div>
 </section>
 
 <!-- Leadership -->
 <section class="leadership-section" id="leadership">
   <div class="leadership-header">
-    <p class="section-label reveal">Leadership</p>
-    <h2 class="section-title reveal reveal-delay-1">Guided by Servant Hearts</h2>
+    <p class="section-label reveal" id="leadershipLabel"></p>
+    <h2 class="section-title reveal reveal-delay-1" id="leadershipTitle"></h2>
     <div class="section-divider reveal reveal-delay-2"></div>
   </div>
-  <div class="leadership-grid">
-    <div class="leader-card reveal">
-      <div class="leader-photo" style="background: linear-gradient(135deg, var(--sage), var(--sage-light));">
-        &#x271D;
-      </div>
-      <h3>Leader Name</h3>
-      <p class="role">Project Lead</p>
-    </div>
-    <div class="leader-card reveal reveal-delay-1">
-      <div class="leader-photo" style="background: linear-gradient(135deg, var(--blue-muted), var(--blue-light));">
-        &#x271D;
-      </div>
-      <h3>Leader Name</h3>
-      <p class="role">Study Coordinator</p>
-    </div>
-    <div class="leader-card reveal reveal-delay-2">
-      <div class="leader-photo" style="background: linear-gradient(135deg, var(--sage), var(--blue-muted));">
-        &#x271D;
-      </div>
-      <h3>Leader Name</h3>
-      <p class="role">Commissions Head</p>
-    </div>
-  </div>
+  <div class="leadership-grid" id="leadershipGrid"></div>
 </section>
 
 <!-- Connect -->
 <section class="connect-section" id="connect">
   <div class="connect-box reveal">
-    <p class="section-label">Join Us</p>
-    <h2 class="section-title">Begin Your Journey<br>Toward Maturity</h2>
-    <p class="section-body">
-      Whether you're new to faith or have walked with Christ for years,
-      there's a place for you here. Come grow with us.
-    </p>
-    <a href="mailto:hello@thematurityproject.org" class="connect-btn">
-      Get In Touch
+    <p class="section-label" id="connectLabel"></p>
+    <h2 class="section-title" id="connectTitle"></h2>
+    <p class="section-body" id="connectBody"></p>
+    <a href="#" class="connect-btn" id="connectBtn">
+      <span id="connectBtnText"></span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M5 12h14M12 5l7 7-7 7"/>
       </svg>
@@ -927,53 +769,44 @@
 
 <!-- Footer -->
 <footer>
-  <p class="footer-scripture">"He who began a good work in you will carry it on to completion." — Philippians 1:6</p>
-  <p>&copy; 2026 The Maturity Project · A Bible Study Fellowship</p>
+  <p class="footer-scripture" id="footerScripture"></p>
+  <p id="footerCopyright"></p>
 </footer>
 
 <script>
-  // ─── Scroll reveal ───
+  const COLOR_MAP = {
+    'sage': 'var(--sage)',
+    'sage-light': 'var(--sage-light)',
+    'blue-muted': 'var(--blue-muted)',
+    'blue-light': 'var(--blue-light)',
+    'gold-soft': 'var(--gold-soft)'
+  };
+
+  const GRADIENT_MAP = {
+    'sage-to-sage-light': 'linear-gradient(135deg, var(--sage), var(--sage-light))',
+    'blue-muted-to-blue-light': 'linear-gradient(135deg, var(--blue-muted), var(--blue-light))',
+    'sage-to-blue-muted': 'linear-gradient(135deg, var(--sage), var(--blue-muted))',
+    'sage-to-gold-soft': 'linear-gradient(135deg, var(--sage), var(--gold-soft))',
+    'blue-muted-to-gold-soft': 'linear-gradient(135deg, var(--blue-muted), var(--gold-soft))'
+  };
+
+  // Scroll reveal observer
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  function observeReveals() {
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
 
-  // ─── Nav scroll effect ───
+  // Nav scroll effect
   window.addEventListener('scroll', () => {
     document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
   });
 
-  // ─── Generate member avatars ───
-  const names = [
-    'Ada', 'Ben', 'Chi', 'Dan', 'Efe', 'Fay', 'Gab', 'Hal',
-    'Ife', 'Joy', 'Kay', 'Leo', 'Mia', 'Nia', 'Obi', 'Pio',
-    'Rea', 'Sam', 'Tia', 'Udo', 'Val', 'Wes', 'Xen', 'Yaw',
-    'Zoe', 'Ayo', 'Bim', 'Cyn', 'Deb', 'Eli', 'Flo', 'Glo',
-    'Hue', 'Ina', 'Jem', 'Kim', 'Luz', 'Mae', 'Ned', 'Ora'
-  ];
-  const colors = [
-    'var(--sage)', 'var(--sage-light)', 'var(--blue-muted)',
-    'var(--blue-light)', 'var(--gold-soft)'
-  ];
-  const grid = document.getElementById('membersGrid');
-  names.forEach((name, i) => {
-    const div = document.createElement('div');
-    div.className = 'member-avatar';
-    div.innerHTML = `
-      <div class="member-circle" style="background: ${colors[i % colors.length]}">
-        ${name[0]}
-      </div>
-      <span class="member-name">${name}</span>
-    `;
-    grid.appendChild(div);
-  });
-
-  // ─── Smooth scroll for anchor links ───
+  // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -981,6 +814,115 @@
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  // Load and render content
+  async function loadContent() {
+    const res = await fetch('/api/content');
+    const data = await res.json();
+
+    // Hero
+    document.getElementById('heroEyebrow').textContent = data.hero.eyebrow;
+    document.getElementById('heroHeadline').innerHTML = data.hero.headline;
+    const scriptureEl = document.getElementById('heroScripture');
+    scriptureEl.innerHTML = data.hero.scripture + '<br>' + data.hero.scriptureRef;
+    document.getElementById('heroCtaText').textContent = data.hero.ctaText;
+
+    // About
+    document.getElementById('aboutLabel').textContent = data.about.label;
+    document.getElementById('aboutTitle').innerHTML = data.about.title;
+    const aboutBodyEl = document.getElementById('aboutBody');
+    aboutBodyEl.innerHTML = data.about.body.map((p, i) =>
+      `<p class="section-body reveal reveal-delay-${i + 2}" ${i > 0 ? 'style="margin-top: 1rem;"' : ''}>${p}</p>`
+    ).join('');
+    document.getElementById('aboutVisualText').innerHTML = data.about.visualText;
+
+    // Journey
+    document.getElementById('journeyLabel').textContent = data.journey.label;
+    document.getElementById('journeyTitle').textContent = data.journey.title;
+    const stagesEl = document.getElementById('journeyStages');
+    stagesEl.innerHTML = data.journey.stages.map((s, i) => `
+      <div class="stage-card stage-${i + 1} reveal ${i > 0 ? 'reveal-delay-' + i : ''}">
+        <div class="stage-number">${s.number}</div>
+        <h3 class="stage-title">${s.title}</h3>
+        <p class="stage-desc">${s.description}</p>
+      </div>
+    `).join('');
+
+    // Commissions
+    document.getElementById('commissionsLabel').textContent = data.commissions.label;
+    document.getElementById('commissionsTitle').textContent = data.commissions.title;
+    document.getElementById('commissionsBody').textContent = data.commissions.body;
+    const commGrid = document.getElementById('commissionsGrid');
+    commGrid.innerHTML = data.commissions.cards.map((c, i) => `
+      <div class="commission-card reveal ${i > 0 ? 'reveal-delay-' + Math.min(i, 4) : ''}">
+        <div class="commission-icon ${c.iconColor}">${c.icon}</div>
+        <h3>${c.title}</h3>
+        <p>${c.description}</p>
+      </div>
+    `).join('');
+
+    // Members
+    document.getElementById('membersLabel').textContent = data.members.label;
+    document.getElementById('membersTitle').textContent = data.members.title;
+    const membersGrid = document.getElementById('membersGrid');
+    membersGrid.innerHTML = data.members.list.map(m => `
+      <div class="member-avatar">
+        <div class="member-circle" style="background: ${COLOR_MAP[m.color] || 'var(--sage)'}">
+          ${m.name[0]}
+        </div>
+        <span class="member-name">${m.name}</span>
+      </div>
+    `).join('');
+
+    // Schedule
+    document.getElementById('scheduleLabel').textContent = data.schedule.label;
+    document.getElementById('scheduleTitle').innerHTML = data.schedule.title;
+    document.getElementById('scheduleBody').textContent = data.schedule.body;
+    const schedList = document.getElementById('scheduleList');
+    schedList.innerHTML = data.schedule.events.map((ev, i) => `
+      <div class="schedule-item reveal ${i > 0 ? 'reveal-delay-' + i : ''}">
+        <div class="schedule-date">
+          <div class="day">${ev.day}</div>
+          <div class="month">${ev.month}</div>
+        </div>
+        <div class="schedule-info">
+          <h4>${ev.title}</h4>
+          <p>${ev.details}</p>
+        </div>
+      </div>
+    `).join('');
+
+    // Leadership
+    document.getElementById('leadershipLabel').textContent = data.leadership.label;
+    document.getElementById('leadershipTitle').textContent = data.leadership.title;
+    const leadGrid = document.getElementById('leadershipGrid');
+    leadGrid.innerHTML = data.leadership.leaders.map((l, i) => `
+      <div class="leader-card reveal ${i > 0 ? 'reveal-delay-' + i : ''}">
+        <div class="leader-photo" style="background: ${GRADIENT_MAP[l.gradient] || GRADIENT_MAP['sage-to-sage-light']}">
+          &#x271D;
+        </div>
+        <h3>${l.name}</h3>
+        <p class="role">${l.role}</p>
+      </div>
+    `).join('');
+
+    // Connect
+    document.getElementById('connectLabel').textContent = data.connect.label;
+    document.getElementById('connectTitle').innerHTML = data.connect.title;
+    document.getElementById('connectBody').textContent = data.connect.body;
+    document.getElementById('connectBtnText').textContent = data.connect.buttonText;
+    document.getElementById('connectBtn').href = 'mailto:' + data.connect.email;
+
+    // Footer
+    const footerScr = document.getElementById('footerScripture');
+    footerScr.textContent = data.footer.scripture + ' ' + data.footer.scriptureRef;
+    document.getElementById('footerCopyright').textContent = data.footer.copyright;
+
+    // Re-observe newly created elements
+    observeReveals();
+  }
+
+  loadContent();
 </script>
 
 </body>

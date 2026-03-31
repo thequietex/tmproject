@@ -1,0 +1,119 @@
+{
+  "hero": {
+    "eyebrow": "A Bible Study Fellowship",
+    "headline": "Growing into the<br><em>fullness of Christ</em>",
+    "scripture": "\"Until we all reach unity in the faith and in the knowledge of the Son of God and become mature, attaining to the whole measure of the fullness of Christ.\"",
+    "scriptureRef": "— Ephesians 4:13",
+    "ctaText": "Begin the Journey"
+  },
+  "about": {
+    "label": "Our Vision",
+    "title": "A community pursuing<br>spiritual maturity together",
+    "body": [
+      "The Maturity Project is a fellowship of 40 believers committed to growing deeper in the Word of God. We believe that spiritual maturity isn't a destination — it's a journey we walk together, season by season, study by study.",
+      "Through structured Bible study, Godly commissions, and mutual accountability, we're becoming who God created us to be."
+    ],
+    "visualText": "Your logo &<br>group photo here"
+  },
+  "journey": {
+    "label": "The Path",
+    "title": "Stages of Growth",
+    "stages": [
+      { "number": "01", "title": "Foundation", "description": "Rooted in the Word. Building the habits of daily study, prayer, and fellowship." },
+      { "number": "02", "title": "Formation", "description": "Shaped by truth. Developing understanding and letting Scripture transform the mind." },
+      { "number": "03", "title": "Commission", "description": "Sent with purpose. Discovering and walking in your God-given assignment." },
+      { "number": "04", "title": "Multiplication", "description": "Bearing fruit. Pouring into others and extending the Kingdom through service." }
+    ]
+  },
+  "commissions": {
+    "label": "Godly Commissions",
+    "title": "Called to Serve",
+    "body": "Each commission is an extension of our purpose — equipping members to serve the body and the world with their unique gifts.",
+    "cards": [
+      { "icon": "🕊️", "iconColor": "sage", "title": "Prayer & Intercession", "description": "Standing in the gap for the fellowship, our families, and our communities through consistent, fervent prayer." },
+      { "icon": "📖", "iconColor": "blue", "title": "Teaching & Discipleship", "description": "Facilitating Bible studies, mentoring new believers, and ensuring sound doctrine flows through the fellowship." },
+      { "icon": "🤝", "iconColor": "sage", "title": "Outreach & Evangelism", "description": "Extending the love of Christ beyond our walls — community service, campus ministry, and missions." },
+      { "icon": "🎵", "iconColor": "blue", "title": "Worship & Creative Arts", "description": "Leading the fellowship into God's presence through music, spoken word, and creative expression." },
+      { "icon": "💛", "iconColor": "sage", "title": "Welfare & Care", "description": "Meeting practical needs, checking on members, and creating a culture of genuine love and support." },
+      { "icon": "📋", "iconColor": "blue", "title": "Administration & Media", "description": "Keeping the fellowship organized, managing communications, and documenting our journey." }
+    ]
+  },
+  "members": {
+    "label": "Our People",
+    "title": "40 Members, One Purpose",
+    "list": [
+      { "name": "Ada", "color": "sage" },
+      { "name": "Ben", "color": "sage-light" },
+      { "name": "Chi", "color": "blue-muted" },
+      { "name": "Dan", "color": "blue-light" },
+      { "name": "Efe", "color": "gold-soft" },
+      { "name": "Fay", "color": "sage" },
+      { "name": "Gab", "color": "sage-light" },
+      { "name": "Hal", "color": "blue-muted" },
+      { "name": "Ife", "color": "blue-light" },
+      { "name": "Joy", "color": "gold-soft" },
+      { "name": "Kay", "color": "sage" },
+      { "name": "Leo", "color": "sage-light" },
+      { "name": "Mia", "color": "blue-muted" },
+      { "name": "Nia", "color": "blue-light" },
+      { "name": "Obi", "color": "gold-soft" },
+      { "name": "Pio", "color": "sage" },
+      { "name": "Rea", "color": "sage-light" },
+      { "name": "Sam", "color": "blue-muted" },
+      { "name": "Tia", "color": "blue-light" },
+      { "name": "Udo", "color": "gold-soft" },
+      { "name": "Val", "color": "sage" },
+      { "name": "Wes", "color": "sage-light" },
+      { "name": "Xen", "color": "blue-muted" },
+      { "name": "Yaw", "color": "blue-light" },
+      { "name": "Zoe", "color": "gold-soft" },
+      { "name": "Ayo", "color": "sage" },
+      { "name": "Bim", "color": "sage-light" },
+      { "name": "Cyn", "color": "blue-muted" },
+      { "name": "Deb", "color": "blue-light" },
+      { "name": "Eli", "color": "gold-soft" },
+      { "name": "Flo", "color": "sage" },
+      { "name": "Glo", "color": "sage-light" },
+      { "name": "Hue", "color": "blue-muted" },
+      { "name": "Ina", "color": "blue-light" },
+      { "name": "Jem", "color": "gold-soft" },
+      { "name": "Kim", "color": "sage" },
+      { "name": "Luz", "color": "sage-light" },
+      { "name": "Mae", "color": "blue-muted" },
+      { "name": "Ned", "color": "blue-light" },
+      { "name": "Ora", "color": "gold-soft" }
+    ]
+  },
+  "schedule": {
+    "label": "Study Calendar",
+    "title": "Upcoming<br>Sessions",
+    "body": "We gather weekly for Bible study and monthly for fellowship. All sessions are open to committed members.",
+    "events": [
+      { "day": "05", "month": "Apr", "title": "Book of James — Chapter 3", "details": "Saturday · 10:00 AM · Main Hall" },
+      { "day": "12", "month": "Apr", "title": "Book of James — Chapter 4", "details": "Saturday · 10:00 AM · Main Hall" },
+      { "day": "19", "month": "Apr", "title": "Monthly Fellowship & Worship", "details": "Saturday · 4:00 PM · Fellowship Center" },
+      { "day": "26", "month": "Apr", "title": "Book of James — Chapter 5", "details": "Saturday · 10:00 AM · Main Hall" }
+    ]
+  },
+  "leadership": {
+    "label": "Leadership",
+    "title": "Guided by Servant Hearts",
+    "leaders": [
+      { "name": "Leader Name", "role": "Project Lead", "gradient": "sage-to-sage-light" },
+      { "name": "Leader Name", "role": "Study Coordinator", "gradient": "blue-muted-to-blue-light" },
+      { "name": "Leader Name", "role": "Commissions Head", "gradient": "sage-to-blue-muted" }
+    ]
+  },
+  "connect": {
+    "label": "Join Us",
+    "title": "Begin Your Journey<br>Toward Maturity",
+    "body": "Whether you're new to faith or have walked with Christ for years, there's a place for you here. Come grow with us.",
+    "buttonText": "Get In Touch",
+    "email": "hello@thematurityproject.org"
+  },
+  "footer": {
+    "scripture": "\"He who began a good work in you will carry it on to completion.\"",
+    "scriptureRef": "— Philippians 1:6",
+    "copyright": "© 2026 The Maturity Project · A Bible Study Fellowship"
+  }
+}
