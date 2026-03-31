@@ -815,10 +815,24 @@
     });
   });
 
-  // Load and render content
+  // Load content — try Sanity first, fall back to local JSON
   async function loadContent() {
-    const res = await fetch('/api/content');
-    const data = await res.json();
+    let data;
+    try {
+      const sanityRes = await fetch('/api/sanity-content');
+      if (sanityRes.ok) {
+        const sanityData = await sanityRes.json();
+        // Use Sanity data only if it has content (hero exists means data was populated)
+        if (sanityData.hero) {
+          data = sanityData;
+        }
+      }
+    } catch (e) { /* fall through to local */ }
+
+    if (!data) {
+      const res = await fetch('/api/content');
+      data = await res.json();
+    }
 
     // Hero
     document.getElementById('heroEyebrow').textContent = data.hero.eyebrow;
