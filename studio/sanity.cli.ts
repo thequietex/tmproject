@@ -1,9 +1,10 @@
-{
-  "$schema": "https://www.sanity.io/schemas/cli/v3.json",
-  "api": {
-    "projectId": "rownmujw",
-    "dataset": "production"
+import {defineCliConfig} from 'sanity/cli'
+
+export default defineCliConfig({
+  api: {
+    projectId: 'rownmujw',
+    dataset: 'production',
   },
-  "studioHost": "the-maturity-project",
-  "autoUpdates": true
-}
+  studioHost: 'the-maturity-project',
+  autoUpdates: true,
+})
